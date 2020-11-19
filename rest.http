@@ -1,0 +1,14 @@
+POST http://localhost:3000/products/category/add
+content-type: application/json
+{
+  "id":"c0a179bf-8f1d-4dae-bc79-5ab17cee66f3",
+	"name":"Monitor"
+}
+POST http://localhost:3000/products/add
+content-type: application/json
+{
+	"name": "aa",
+	"cod_reference": "4",
+	"current_price": 500,
+	"category_id": "dd97f4b1-8dbe-47fb-aac1-18c58434747e"
+}
