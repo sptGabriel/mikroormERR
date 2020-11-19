@@ -79,7 +79,7 @@ const test = Router();
 test.post('/', async (request: Request, response) => {
   try {
     console.log('a');
-    const componentOwner = await valideteComponent('x4');
+    const componentOwner = await valideteComponent('xd');
     const hasAllComponents = await validateComponents(['x', 'xx']);
     const equipDomain = EquipmentInstance.build({
       component: componentOwner,
@@ -92,10 +92,12 @@ test.post('/', async (request: Request, response) => {
         })
       );
     }
-    const equipment = create(equipDomain);
-    response.status(200).json(equipment);
+
+    const equipment = await create(equipDomain);
+    response.json(equipment);
   } catch (error) {
-    response.status(400).json(error.message);
+    console.log(error)
+    response.json(error.message);
   }
 });
-export default { test };
+export default test

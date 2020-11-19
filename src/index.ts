@@ -1,9 +1,12 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import options from './mikro.config';
+import router from './controller/index'
 import { populate } from './controller/populatedb';
 import { MikroORM, RequestContext } from '@mikro-orm/core';
 import { EntityManager, PostgreSqlDriver } from '@mikro-orm/postgresql';
+import cors from 'cors'
+import cookieParser from 'cookie-parser'
 export class ExpressServer {
   private server: express.Application;
   private connection: MikroORM<PostgreSqlDriver>;
@@ -23,6 +26,7 @@ export class ExpressServer {
     }
   };
   private initializeRouter = () => {
+    this.server.use(router)
     this.server.get('/favico.ico', (req, res) => {
       res.sendStatus(404);
     });
@@ -31,10 +35,14 @@ export class ExpressServer {
     });
   };
   private initializeMiddlewares = () => {
+    this.server.use(cors());
+    this.server.use(express.json());
+    this.server.use(bodyParser.json());
+    this.server.use(cookieParser());
     this.server.use(express.json());
     this.server.use(bodyParser.json());
     this.server.use((req, res, next) => {
-      RequestContext.create(this.em, next);
+      RequestContext.create(this.connection.em, next);
     });
   };
   public getServer = () => {

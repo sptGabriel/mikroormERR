@@ -13,11 +13,11 @@ export class Migration20201104231206 extends Migration {
               .references('patrimony_code')
               .inTable('equipments')
               .notNullable()
-              .unique();
             table
               .uuid('component_id')
               .references('components.id')
-              .notNullable();
+              .notNullable()
+              .unique();
             table.unique(['equipment_id', 'component_id']);
             table.timestamp('created_at').defaultTo(this.getKnex().fn.now());
             table.timestamp('updated_at').defaultTo(this.getKnex().fn.now());
